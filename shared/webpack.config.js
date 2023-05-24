@@ -1,43 +1,15 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin } = require('webpack').container;
-const path = require('path');
+const { merge } = require("webpack-merge");
 
-module.exports = {
-  entry: './src/index',
-  mode: 'development',
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
-    port: 3002,
-  },
-  output: {
-    publicPath: 'auto',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        options: {
-          presets: ['@babel/preset-react'],
-        },
-      },
-    ],
-  },
-  plugins: [
-    new ModuleFederationPlugin({
-      name: 'shared',
-      library: { type: 'var', name: 'shared' },
-      filename: 'remoteEntry.js',
-      exposes: {
-        './Button': './src/Button',
-      },
-      shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
-    }),
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-    }),
-  ],
+const commonConfig = require("./webpack.common.js");
+
+const getAddons = (addonsArgs) => {
+  const addons = Array.isArray(addonsArgs) ? addonsArgs : [addonsArgs];
+  return addons
+    .filter(Boolean)
+    .map((name) => require(`./addons/webpack.${name}.js`));
+};
+
+module.exports = ({ env, addon }) => {
+  const envConfig = require(`./webpack.${env}.js`);
+  return merge(commonConfig, envConfig, ...getAddons(addon));
 };
