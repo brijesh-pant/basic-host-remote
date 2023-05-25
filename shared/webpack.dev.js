@@ -1,15 +1,10 @@
 const { ModuleFederationPlugin } = require("webpack").container;
 const path = require("path");
 const { camelCase } = require("camel-case");
+const { shared, exposes } = require("./const");
 
 const pkg = require("./package.json");
 const name = camelCase(pkg.name);
-
-const exposes = {
-  "./Button": "./src/Button",
-  "./Heading": "./src/Heading",
-};
-const shared = { react: { singleton: true }, "react-dom": { singleton: true } };
 
 module.exports = {
   mode: "development",

@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "./host",
-    "./shared"
+    "./shared",
+    "./app-tokens"
   ],
   "version": "0.0.0",
   "scripts": {
