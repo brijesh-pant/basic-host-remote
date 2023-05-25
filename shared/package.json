@@ -1,6 +1,6 @@
 {
   "name": "basic-host-remote_shared",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "browser": "dist/browser/remote-entry.js",
   "devDependencies": {
     "@babel/core": "7.21.4",

@@ -9,8 +9,7 @@ const RemoteHeading = React.lazy(() =>
 
 const App = () => (
   <div>
-    <h1>Basic Host-Remote</h1>
-    <h2>App 1</h2>
+    <h2>Host App</h2>
     <React.Suspense fallback="Loading Button">
       <RemoteButton />
       <RemoteHeading />
